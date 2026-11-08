@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaderboard · Team Takeover Box Scores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/img/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="./">
+      <img class="logo" src="/img/team-takeover-logo.png" alt="Team Takeover" width="60" height="52">
+      <span class="brand-name">TEAM TAKEOVER</span>
+      <span class="brand-div"></span>
+      <span class="brand-sub">BOX SCORES</span>
+    </a>
+    <nav class="mainnav" aria-label="Main">
+      <a href="./" id="players-link">Players</a>
+      <a href="games" id="games-link">Games</a>
+      <a href="leaderboard" aria-current="page">Leaderboard</a>
+    </nav>
+  </div>
+</header>
+
+<main class="widepage">
+  <div class="head">
+    <div class="head-text">
+      <span class="eyebrow" id="eyebrow">NCAAM · SEASON</span>
+      <h1>Leaderboard</h1>
+      <p class="lede">Season stats for every Team Takeover alumnus. Click a player for their last 5 team games.</p>
+    </div>
+  </div>
+
+  <section class="section" aria-label="Filters">
+    <div class="toolbar">
+      <div class="tools-right lb-filters">
+        <input class="search" id="q" type="search" placeholder="Search player" aria-label="Search player">
+        <label class="field-inline"><span class="label">School</span><select id="team" class="select"><option value="">All schools</option></select></label>
+        <label class="field-inline"><span class="label">Min. games</span><select id="mingp" class="select">
+          <option value="0">Any</option><option value="1">1+</option><option value="5">5+</option><option value="10">10+</option><option value="20">20+</option>
+        </select></label>
+      </div>
+      <div class="seg" role="group" aria-label="Per game or totals" id="modeseg">
+        <button type="button" data-mode="pg" aria-pressed="true">Per game</button>
+        <button type="button" data-mode="tot" aria-pressed="false">Totals</button>
+      </div>
+    </div>
+    <span class="sortnote" id="count"></span>
+  </section>
+
+  <div id="status"></div>
+  <div class="tablewrap statwrap-wide">
+    <table class="stattable lbtable">
+      <thead><tr id="headrow"></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="note" id="foot"></p>
+
+  <section class="section" aria-label="Alumni not on a Division I roster" id="others-section" hidden>
+    <h2>Alumni not on a D-I roster <small id="others-n"></small></h2>
+    <div id="others"></div>
+    <p class="note">ESPN only has box scores for Division I, so these alumni have no season stats here.</p>
+  </section>
+</main>
+
+<script src="common.js"></script>
+<script src="leaderboard.js"></script>
+</body>
+</html>

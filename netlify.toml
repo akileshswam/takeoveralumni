@@ -1,0 +1,10 @@
+# Netlify: the pages are static files in public/, the data comes from netlify/functions/, and marks
+# and the season log are kept in Netlify Blobs. No build step.
+[build]
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # The alumni list is read at request time, so it has to ship with the functions.
+  included_files = ["alumni.csv"]

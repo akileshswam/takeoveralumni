@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Games · Team Takeover Box Scores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/img/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="./">
+      <img class="logo" src="/img/team-takeover-logo.png" alt="Team Takeover" width="60" height="52">
+      <span class="brand-name">TEAM TAKEOVER</span>
+      <span class="brand-div"></span>
+      <span class="brand-sub">BOX SCORES</span>
+    </a>
+    <nav class="mainnav" aria-label="Main">
+      <a href="./" id="players-link">Players</a>
+      <a href="games" id="games-link" aria-current="page">Games</a>
+      <a href="leaderboard">Leaderboard</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="head">
+    <div class="head-text">
+      <span class="eyebrow" id="season">NCAAM</span>
+      <h1>Games</h1>
+      <p class="lede" id="lede">Every game with a Team Takeover alumnus's team. Open one for the full box score.</p>
+    </div>
+    <div class="datenav">
+      <button type="button" class="iconbtn" id="prev" aria-label="Previous day">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <label class="datebox">
+        <span class="sr-only">Game date</span>
+        <input type="date" id="date">
+      </label>
+      <button type="button" class="iconbtn" id="next" aria-label="Next day">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <button type="button" class="today" id="lastnight">Last night</button>
+      <button type="button" class="today" id="tonight">Tonight</button>
+    </div>
+  </div>
+
+  <section class="section" aria-label="Games">
+    <div class="toolbar">
+      <span class="sortnote" id="finalnote"></span>
+    </div>
+    <div id="status"></div>
+    <div class="gamegrid" id="games"></div>
+  </section>
+
+  <footer>
+    <span id="foot"></span>
+    <span>Stats: ESPN, refreshed every 30–60 seconds</span>
+  </footer>
+</main>
+
+<script src="common.js"></script>
+<script src="games.js"></script>
+</body>
+</html>

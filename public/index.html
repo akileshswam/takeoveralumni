@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Takeover Box Scores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/img/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="./">
+      <img class="logo" src="/img/team-takeover-logo.png" alt="Team Takeover" width="60" height="52">
+      <span class="brand-name">TEAM TAKEOVER</span>
+      <span class="brand-div"></span>
+      <span class="brand-sub">BOX SCORES</span>
+    </a>
+    <nav class="mainnav" aria-label="Main">
+      <a href="./" aria-current="page">Players</a>
+      <a href="games" id="games-link">Games</a>
+      <a href="leaderboard">Leaderboard</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="head">
+    <div class="head-text">
+      <span class="eyebrow" id="season">NCAAM</span>
+      <h1>Alumni Box Scores</h1>
+      <p class="lede">Every Team Takeover alumnus who played, in one table.</p>
+    </div>
+    <div class="datenav">
+      <button type="button" class="iconbtn" id="prev" aria-label="Previous day">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <label class="datebox">
+        <span class="sr-only">Game date</span>
+        <input type="date" id="date">
+      </label>
+      <button type="button" class="iconbtn" id="next" aria-label="Next day">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <button type="button" class="today" id="lastnight">Last night</button>
+      <button type="button" class="today" id="tonight">Tonight</button>
+    </div>
+  </div>
+
+  <section class="tiles" aria-label="Summary">
+    <div class="tile"><span class="label">Alumni played</span><span class="tile-v" id="t-played">–</span></div>
+    <div class="tile"><span class="label">Alumni team games</span><span class="tile-v" id="t-games">–</span></div>
+    <div class="tile"><span class="label">Marked to post</span><span class="tile-v accent" id="t-marked">–</span></div>
+    <div class="tile"><span class="label">Last updated</span><span class="tile-v" id="t-updated">–</span></div>
+  </section>
+
+  <section class="section" aria-label="Box scores">
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Show" id="viewseg">
+        <button type="button" data-view="alumni" aria-pressed="true">Alumni <span class="n" id="n-alumni"></span></button>
+        <button type="button" data-view="marked" aria-pressed="false">Marked to post <span class="n" id="n-marked"></span></button>
+      </div>
+      <div class="tools-right">
+        <label class="sr-only" for="q">Search players or schools</label>
+        <input class="search" id="q" type="search" placeholder="Search player or school">
+        <span class="sortnote">Sorted by <b id="sortlabel">PTS</b> · click any column</span>
+      </div>
+    </div>
+    <div id="status"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr id="headrow"></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="cards" id="cards"></div>
+    <p class="note">The bookmark is for the social team: anyone can mark a line to post, and everyone sees the same marks within about 20 seconds.</p>
+  </section>
+
+  <section class="section" aria-label="Alumni with no box score line" id="dnp-section" hidden>
+    <h2>Alumni with no line <small id="dnp-n"></small></h2>
+    <div class="dnp" id="dnp"></div>
+    <p class="note" id="nogame" hidden></p>
+  </section>
+
+  <section class="section" aria-label="Games with an alumni team" id="sched-section" hidden>
+    <h2>Games <small id="sched-n"></small></h2>
+    <div id="sched"></div>
+    <p class="note">Every game on this date with an alumnus's team, and the alumni on each roster. Times are Eastern.</p>
+  </section>
+
+  <section class="section" aria-label="Alumni not on a Division I roster" id="others-section" hidden>
+    <h2>Alumni not on a D-I roster <small id="others-n"></small></h2>
+    <div id="others"></div>
+    <p class="note">ESPN only has box scores for Division I, so these alumni can't show up above.</p>
+  </section>
+
+  <footer>
+    <span id="foot-games"></span>
+    <span>Stats and photos: ESPN, refreshed every 30–60 seconds · Alumni list: alumni.csv</span>
+  </footer>
+</main>
+
+<script src="common.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

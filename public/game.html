@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Box Score · Team Takeover Box Scores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/img/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="./">
+      <img class="logo" src="/img/team-takeover-logo.png" alt="Team Takeover" width="60" height="52">
+      <span class="brand-name">TEAM TAKEOVER</span>
+      <span class="brand-div"></span>
+      <span class="brand-sub">BOX SCORES</span>
+    </a>
+    <nav class="mainnav" aria-label="Main">
+      <a href="./" id="players-link">Players</a>
+      <a href="games" id="games-link" aria-current="page">Games</a>
+      <a href="leaderboard">Leaderboard</a>
+    </nav>
+  </div>
+</header>
+
+<main class="gamepage">
+  <div class="game-head">
+    <div class="game-top">
+      <a class="back" id="back" href="games">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        <span id="back-label">Games</span>
+      </a>
+      <div class="espn-links" id="espn-links"></div>
+    </div>
+    <span class="eyebrow" id="eyebrow">NCAAM · BOX SCORE</span>
+    <h1 class="sr-only" id="title">Box score</h1>
+    <p class="game-meta" id="meta"></p>
+    <div class="scoreline" id="scoreline"></div>
+    <div class="linewrap"><table class="linescore" id="linescore"></table></div>
+    <p class="game-alumni" id="game-alumni" hidden></p>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Game sections">
+    <button type="button" role="tab" id="tab-box" aria-selected="true" aria-controls="panel-box">Box Score</button>
+    <button type="button" role="tab" id="tab-team" aria-selected="false" aria-controls="panel-team">Team Stats</button>
+  </div>
+
+  <div id="status"></div>
+  <section id="panel-box" role="tabpanel" aria-labelledby="tab-box" class="section"></section>
+  <section id="panel-team" role="tabpanel" aria-labelledby="tab-team" class="section" hidden></section>
+
+  <footer>
+    <span id="foot"></span>
+    <span>Stats and photos: ESPN. Check any number against the ESPN box score linked above.</span>
+  </footer>
+</main>
+
+<script src="common.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
