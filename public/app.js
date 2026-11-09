@@ -44,9 +44,9 @@ async function load() {
   render();
   try {
     const [box, marks, sched] = await Promise.all([
-      K.getJson(`api/boxscores?date=${K.compact(date)}`),
+      K.getJson(`api/boxscores?date=${K.compact(date)}${K.lg()}`),
       K.getJson(`api/marks?date=${K.compact(date)}`),
-      K.getJson(`api/schedule?from=${K.compact(date)}&days=1`).catch(() => null),
+      K.getJson(`api/schedule?from=${K.compact(date)}&days=1${K.lg()}`).catch(() => null),
     ]);
     if (date !== state.date) return; // the user moved on while this was loading
     state.data = box;
@@ -185,7 +185,7 @@ function render() {
   const d = state.data;
   $("date").value = state.date;
   $("season").textContent = K.seasonLabel(state.date);
-  $("games-link").href = `games?date=${state.date}`;
+  $("games-link").href = `games?date=${state.date}${K.lg()}`;
   renderHead();
 
   for (const b of document.querySelectorAll("#viewseg button")) b.setAttribute("aria-pressed", String(b.dataset.view === state.view));

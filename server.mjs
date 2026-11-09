@@ -5,7 +5,7 @@ import http from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { alumniMatcher, boxscores, espnNames, game, schedule, validDate, validId } from "./lib/core.mjs";
+import { alumniMatcher, boxscores, espnNames, game, parseLeague, schedule, validDate, validId } from "./lib/core.mjs";
 import { buildBoard, currentSeason, ensureLedger, updateLedger } from "./lib/season.mjs";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -32,20 +32,22 @@ function saveMarks() {
 }
 
 // ---------------------------------------------------------------- leaderboard
-// The season log lives in data/ledger-<season>.json locally. It's brought up to date at most every
-// two minutes, when someone opens the Leaderboard.
-const job = { running: null, checkedAt: 0, key: "" };
-async function localBoard(season) {
-  const file = path.join(DATA_DIR, `ledger-${season}.json`);
-  const match = await alumniMatcher();
-  const key = match.alumni.map((c) => c.espnId).join(",");
+// Each league's season log lives in data/ledger-<league>-<season>.json locally. It's brought up to
+// date at most every two minutes, when someone opens that league's Leaderboard.
+const jobs = new Map();
+async function localBoard(season, league) {
+  const file = path.join(DATA_DIR, `ledger-${league}-${season}.json`);
+  const match = await alumniMatcher(league);
+  const key = match.alumni.map((c) => `${c.espnId}:${c.teamId}`).join(",");
+  const job = jobs.get(league) || { running: null, checkedAt: 0, key: "" };
+  jobs.set(league, job);
   if (!job.running && (Date.now() - job.checkedAt > 120_000 || job.key !== key)) {
     job.key = key;
     job.running = (async () => {
-      const ledger = ensureLedger(await readFile(file, "utf8").then(JSON.parse).catch(() => null), season, match);
+      const ledger = ensureLedger(await readFile(file, "utf8").then(JSON.parse).catch(() => null), season, match, league);
       // If ESPN is having trouble, show what's already saved rather than an error.
       const r = await updateLedger(ledger, match, { budgetMs: 60_000 }).catch((e) => {
-        console.error(`leaderboard update failed: ${e.message}`);
+        console.error(`leaderboard update failed (${league}): ${e.message}`);
         return { changed: false, waiting: 0 };
       });
       if (r.changed) {
@@ -58,7 +60,7 @@ async function localBoard(season) {
     })().finally(() => { job.running = null; });
   }
   const ledger = await (job.running || readFile(file, "utf8").then(JSON.parse).catch(() => null));
-  return { ...buildBoard(ensureLedger(ledger, season, match), match, await espnNames(match)), waiting: job.waiting || 0 };
+  return { ...buildBoard(ensureLedger(ledger, season, match, league), match, await espnNames(match, league)), waiting: job.waiting || 0 };
 }
 
 // ---------------------------------------------------------------- http
@@ -83,21 +85,23 @@ const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, "http://x");
     const q = url.searchParams;
+    const league = parseLeague(q.get("league"));
+    if (url.pathname.startsWith("/api/") && !league) return send(res, 400, { error: "league must be ncaam or ncaaw" });
 
     if (url.pathname === "/api/boxscores") {
       if (!validDate(q.get("date"))) return send(res, 400, { error: "date must be YYYYMMDD" });
-      return send(res, 200, await boxscores(q.get("date")));
+      return send(res, 200, await boxscores(q.get("date"), league));
     }
     if (url.pathname === "/api/game") {
       if (!validId(q.get("id"))) return send(res, 400, { error: "id must be an ESPN game id" });
-      return send(res, 200, await game(q.get("id")));
+      return send(res, 200, await game(q.get("id"), league));
     }
     if (url.pathname === "/api/schedule") {
       const days = Number(q.get("days") || 7);
       if (!validDate(q.get("from")) || !Number.isInteger(days) || days < 1 || days > 14) return send(res, 400, { error: "from must be YYYYMMDD and days 1-14" });
-      return send(res, 200, await schedule(q.get("from"), days));
+      return send(res, 200, await schedule(q.get("from"), days, league));
     }
-    if (url.pathname === "/api/leaderboard") return send(res, 200, await localBoard(currentSeason()));
+    if (url.pathname === "/api/leaderboard") return send(res, 200, await localBoard(currentSeason(), league));
 
     if (url.pathname === "/api/marks" && req.method === "GET") {
       return send(res, 200, (await loadMarks())[q.get("date") || ""] || {});

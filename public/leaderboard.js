@@ -36,12 +36,12 @@ const COLS = [
 async function load() {
   if (!state.data) $("status").innerHTML = K.loading("Loading season stats…");
   try {
-    const data = await K.getJson("api/leaderboard");
+    const data = await K.getJson(`api/leaderboard${K.lg().replace("&", "?")}`);
     state.data = data;
     const schools = [...new Set(data.players.map((p) => p.school))].sort();
     const keep = state.team;
     $("team").innerHTML = `<option value="">All schools</option>` + schools.map((t) => `<option${t === keep ? " selected" : ""}>${esc(t)}</option>`).join("");
-    $("eyebrow").textContent = `NCAAM · ${data.label} SEASON · ${data.games} ALUMNI TEAM GAMES`;
+    $("eyebrow").textContent = `${K.LEAGUE.label} · ${data.label} SEASON · ${data.games} ALUMNI TEAM GAMES`;
     const when = data.updated ? `Updated ${new Date(data.updated).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/New_York" })} ET. ` : "";
     $("foot").textContent = `${when}Regular season and postseason games count. New games are added within about 15 minutes of the final buzzer.${data.waiting ? ` Still loading ${data.waiting} game${data.waiting === 1 ? "" : "s"}; refresh in a minute.` : ""}`;
     $("status").innerHTML = data.waiting && !data.games ? K.loading(`Building the season log: ${data.waiting} games still loading…`) : "";

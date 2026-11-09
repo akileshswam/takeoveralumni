@@ -1,8 +1,15 @@
-// Helpers shared by every page: escaping, dates in US Eastern, icons, headshots.
-// The whole site is men's college basketball (NCAAM, Division I), so there's no league switch.
+// Helpers shared by every page: escaping, dates in US Eastern, icons, headshots, the league switch.
 const K = (() => {
   const $ = (id) => document.getElementById(id);
-  const LEAGUE = { key: "ncaam", label: "NCAAM", slug: "mens-college-basketball" };
+  // The league comes from the URL and is set once per page load. No param means NCAAM, so links from
+  // before NCAAW was added still work. Switching league is a plain link, which reloads the page.
+  const LEAGUES = {
+    ncaam: { key: "ncaam", label: "NCAAM", slug: "mens-college-basketball" },
+    ncaaw: { key: "ncaaw", label: "NCAAW", slug: "womens-college-basketball" },
+  };
+  const LEAGUE = LEAGUES[new URL(location.href).searchParams.get("league")] || LEAGUES.ncaam;
+  // Appended to our own links and API calls: "&league=ncaaw", or nothing for NCAAM.
+  const lg = () => (LEAGUE.key === "ncaam" ? "" : `&league=${LEAGUE.key}`);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   // en-CA formats as YYYY-MM-DD.
@@ -37,7 +44,33 @@ const K = (() => {
     const u = new URL(location.href);
     u.searchParams.set(key, value);
     history.replaceState(null, "", u);
+    renderLeagueSwitch();
   }
+
+  // NCAAM / NCAAW in the top bar. Each link keeps the date; from a game page it goes to that date's
+  // Games page, since a game belongs to one league.
+  function renderLeagueSwitch() {
+    const box = document.getElementById("league-switch");
+    if (!box) return;
+    box.innerHTML = Object.values(LEAGUES).map((l) => {
+      const u = new URL(location.href);
+      if (u.pathname.replace(/\/$/, "").endsWith("/game")) u.pathname = "/games";
+      u.searchParams.delete("id");
+      if (l.key === "ncaam") u.searchParams.delete("league"); else u.searchParams.set("league", l.key);
+      return `<a href="${esc(u.pathname + u.search)}"${l.key === LEAGUE.key ? ' aria-current="true"' : ""}>${l.label}</a>`;
+    }).join("");
+  }
+  // Every link in the top bar keeps the league as you move around.
+  function applyLeagueToNav() {
+    if (LEAGUE.key === "ncaam") return;
+    for (const a of document.querySelectorAll(".topbar a.brand, .mainnav a")) {
+      const u = new URL(a.getAttribute("href"), location.href);
+      u.searchParams.set("league", LEAGUE.key);
+      a.href = u.pathname + u.search;
+    }
+  }
+  // Pages set their nav links' dates after load; this keeps the league on them too.
+  const withLeague = (href) => href + (href.includes("?") ? lg() : lg().replace("&", "?"));
 
   async function getJson(url) {
     const r = await fetch(url);
@@ -54,7 +87,7 @@ const K = (() => {
   const shot = (p, cls = "") => `<div class="shot${p.alum ? " alum" : ""} ${cls}"><img src="${esc(p.headshot || headshot(p.id))}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${SILHOUETTE}'"></div>`;
   // The orange alumni badge; "TT" where space is tight.
   const badge = (short = false) => `<span class="badge" title="Team Takeover alumnus">${short ? "TT" : "TEAM TAKEOVER"}</span>`;
-  const gameHref = (id, iso) => `game?id=${encodeURIComponent(id)}${iso ? `&date=${iso}` : ""}`;
+  const gameHref = (id, iso) => `game?id=${encodeURIComponent(id)}${iso ? `&date=${iso}` : ""}${lg()}`;
   const playerHref = (id) => `https://www.espn.com/${LEAGUE.slug}/player/_/id/${encodeURIComponent(id)}`;
   // A team's name, with its poll rank in front when it's in the top 25.
   const teamName = (t, key = "name") => `${t.rank ? `<span class="rk">${t.rank}</span> ` : ""}${esc(t[key])}`;
@@ -78,5 +111,8 @@ const K = (() => {
     </div>`).join("")}</div>`;
   }
 
-  return { LEAGUE, $, esc, etToday, shiftDate, lastNight, compact, validIso, seasonLabel, longDate, shortDate, etTime, etDateOf, dateNav, setUrlParam, getJson, SILHOUETTE, BOOKMARK, EXTERNAL, headshot, shot, badge, gameHref, playerHref, teamName, espnLink, titleCase, pct, loading, emptyMark, othersHtml };
+  renderLeagueSwitch();
+  applyLeagueToNav();
+
+  return { LEAGUE, lg, withLeague, $, esc, etToday, shiftDate, lastNight, compact, validIso, seasonLabel, longDate, shortDate, etTime, etDateOf, dateNav, setUrlParam, getJson, SILHOUETTE, BOOKMARK, EXTERNAL, headshot, shot, badge, gameHref, playerHref, teamName, espnLink, titleCase, pct, loading, emptyMark, othersHtml };
 })();

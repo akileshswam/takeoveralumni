@@ -1,12 +1,14 @@
-// GET /api/boxscores?date=YYYYMMDD : every alumnus's line for one date, and the games with an alumni team.
-import { boxscores, validDate, cacheSecondsFor } from "../../lib/core.mjs";
+// GET /api/boxscores?date=YYYYMMDD[&league=ncaaw] : every alumnus's line for one date, and the games with an alumni team.
+import { boxscores, parseLeague, validDate, cacheSecondsFor } from "../../lib/core.mjs";
 import { json } from "../../lib/respond.mjs";
 
 export default async (req) => {
-  const date = new URL(req.url).searchParams.get("date");
-  if (!validDate(date)) return json({ error: "date must be YYYYMMDD" }, 400);
+  const q = new URL(req.url).searchParams;
+  const date = q.get("date");
+  const league = parseLeague(q.get("league"));
+  if (!validDate(date) || !league) return json({ error: "date must be YYYYMMDD and league ncaam or ncaaw" }, 400);
   try {
-    const data = await boxscores(date);
+    const data = await boxscores(date, league);
     return json(data, 200, cacheSecondsFor(data.games, date));
   } catch (e) {
     console.error(e);

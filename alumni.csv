@@ -1,42 +1,69 @@
-# Team Takeover alumni, from the program's 2022-2025 EYBL roster graphic (assets/team-takeover-rosters.webp).
-# Matched by espn_id only, never by name. team_id is ESPN's men's college team id (only unique within a league).
+# Team Takeover alumni. Men (league M) are from the program's 2022-2025 EYBL roster graphic (assets/team-takeover-rosters.webp);
+# women (league W) are from the program's own list.
+# Matched by espn_id only, never by name. team_id is ESPN's team id for that league (ids are only unique within a league:
+# Duke is 150 for both men and women), so a row's league and team_id always go together.
 # status: tracked (on a D-I roster, shows everywhere) | not-d1 | not-found | done. Only "tracked" rows need espn_id and team_id.
 # The site shows ESPN's spelling of each name once it has it.
-name,espn_id,team_id,team,roster_years,status,note
-Isaiah Abraham,5093403,2306,Kansas State,2022 2023,tracked,Paul VI; UConn then Georgetown then Kansas State
-Austin Ball,4895779,2198,Eastern Kentucky,2022,tracked,From George Mason
-Thomas Batties II,5175954,108,Harvard,2022,tracked,
-Donovan Freeman,4873145,2599,St. John's,2022 2023,tracked,ESPN spells it Donnie Freeman
-Darren Harris,4873107,84,Indiana,2022 2023,tracked,Paul VI; Duke then Indiana
-Deshawn Harris-Smith,4848622,48,Delaware,2022,tracked,Maryland then Georgetown then Delaware
-Jacoi Hutchinson,4845378,2653,Troy,2022,tracked,GW then Longwood then Troy
-Bryce Lindsay,5174291,84,Indiana,2022,tracked,Villanova then Indiana
-Malik Mack,5175952,2507,Providence,2022,tracked,Harvard then Georgetown then Providence
-Patrick Ngongba II,4873209,150,Duke,2022 2023,tracked,"""Patrick Ngongba"" on the 2023 roster"
-Patrick O'Brien,5176042,2083,Bucknell,2022,tracked,Bishop O'Connell
-Jeremiah Quigley,5177097,2066,Binghamton,2022,tracked,Iona then George Mason then Binghamton
-Andre Skelin,,,Wayne State (Neb.),2022,not-d1,"Division II. St. Mary's Ryken. ESPN still lists him at UT Tyler (id 5183393), which no longer rosters him; not tracked"
-Jaden Winston,5177116,279,Pacific,2022,tracked,Manhattan then Pacific
-Justin Bumbray,,,Johnson C. Smith,2023,not-d1,Division II. Good Counsel. ESPN has a D-II profile (5319277)
-Daquan Davis,5101651,112358,LIU,2023,tracked,Florida State then Providence then LIU
-Ben Hammond,4873105,259,Virginia Tech,2023,tracked,Paul VI
-Nykolas Lewis,5311890,2670,VCU,2023 2024,tracked,"""Nyk Lewis"" on the 2024 roster; same person"
-Rulian Stewart,,,South Dakota (football),2023,done,"Plays college football as RJ Stewart, a defensive back at South Dakota"
-Garrett Sundra,5142610,256,James Madison,2023,tracked,Notre Dame then James Madison
-Caleb Williams,5061569,46,Georgetown,2023,tracked,Sidwell Friends
-Bobby Montgomery,5254337,2066,Binghamton,2024,tracked,UTEP then Binghamton; ESPN: Bobby Montgomery Jr.
-Derek Dixon,5144097,12,Arizona,2024,tracked,North Carolina then Arizona
-Austin Williford,5236333,2603,Saint Joseph's,2024,tracked,St. Anne's-Belfield
-Adlan Elamin,5195079,2132,Cincinnati,2024,tracked,Utah State then Cincinnati
-Justin Burrough,,,Coker,2024,not-d1,"Division II freshman. Norfolk Collegiate, then St. Paul Prep"
-Jaquan Womack,5312322,119,Towson,2024,tracked,Paul VI
-Jordan Smith Jr.,5142729,8,Arkansas,2024 2025,tracked,"""Jordan Smith"" on the 2024 roster; same person"
-Christian Gurdak,5101850,164,Rutgers,2024,tracked,Virginia Tech then Rutgers
-Bryton Barrett,5458199,2244,George Mason,2025,tracked,Mount St. Joseph
-Carter Meadows,,,Michigan (football),2025,done,Plays college football at Michigan
-Daniel Russell,,,The Potomac School,2025,not-d1,"Still in high school (class of 2027 per ESPN Recruiting; the EYBL roster said 2026)"
-Khaliq Carson,,,,2025,not-found,"Bishop Ireton, class of 2026. No college roster found; may still be in high school"
-Lawrence Brown,5458817,526,Florida Gulf Coast,2025,tracked,Goes by Turk Brown III on ESPN
-Parker Robinson,5210807,197,Oklahoma State,2025,tracked,Overtime Elite
-Prince-Alexander Moody,5456444,84,Indiana,2025,tracked,Bishop McNamara
-Qayden Samuels,5210406,333,Alabama,2025,tracked,Bishop McNamara
+name,league,espn_id,team_id,team,roster_years,status,note
+Isaiah Abraham,M,5093403,2306,Kansas State,2022 2023,tracked,Paul VI; UConn then Georgetown then Kansas State
+Austin Ball,M,4895779,2198,Eastern Kentucky,2022,tracked,From George Mason
+Thomas Batties II,M,5175954,108,Harvard,2022,tracked,
+Donovan Freeman,M,4873145,2599,St. John's,2022 2023,tracked,ESPN spells it Donnie Freeman
+Darren Harris,M,4873107,84,Indiana,2022 2023,tracked,Paul VI; Duke then Indiana
+Deshawn Harris-Smith,M,4848622,48,Delaware,2022,tracked,Maryland then Georgetown then Delaware
+Jacoi Hutchinson,M,4845378,2653,Troy,2022,tracked,GW then Longwood then Troy
+Bryce Lindsay,M,5174291,84,Indiana,2022,tracked,Villanova then Indiana
+Malik Mack,M,5175952,2507,Providence,2022,tracked,Harvard then Georgetown then Providence
+Patrick Ngongba II,M,4873209,150,Duke,2022 2023,tracked,"""Patrick Ngongba"" on the 2023 roster"
+Patrick O'Brien,M,5176042,2083,Bucknell,2022,tracked,Bishop O'Connell
+Jeremiah Quigley,M,5177097,2066,Binghamton,2022,tracked,Iona then George Mason then Binghamton
+Andre Skelin,M,,,Wayne State (Neb.),2022,not-d1,"Division II. St. Mary's Ryken. ESPN still lists him at UT Tyler (id 5183393), which no longer rosters him; not tracked"
+Jaden Winston,M,5177116,279,Pacific,2022,tracked,Manhattan then Pacific
+Justin Bumbray,M,,,Johnson C. Smith,2023,not-d1,Division II. Good Counsel. ESPN has a D-II profile (5319277)
+Daquan Davis,M,5101651,112358,LIU,2023,tracked,Florida State then Providence then LIU
+Ben Hammond,M,4873105,259,Virginia Tech,2023,tracked,Paul VI
+Nykolas Lewis,M,5311890,2670,VCU,2023 2024,tracked,"""Nyk Lewis"" on the 2024 roster; same person"
+Rulian Stewart,M,,,South Dakota (football),2023,done,"Plays college football as RJ Stewart, a defensive back at South Dakota"
+Garrett Sundra,M,5142610,256,James Madison,2023,tracked,Notre Dame then James Madison
+Caleb Williams,M,5061569,46,Georgetown,2023,tracked,Sidwell Friends
+Bobby Montgomery,M,5254337,2066,Binghamton,2024,tracked,UTEP then Binghamton; ESPN: Bobby Montgomery Jr.
+Derek Dixon,M,5144097,12,Arizona,2024,tracked,North Carolina then Arizona
+Austin Williford,M,5236333,2603,Saint Joseph's,2024,tracked,St. Anne's-Belfield
+Adlan Elamin,M,5195079,2132,Cincinnati,2024,tracked,Utah State then Cincinnati
+Justin Burrough,M,,,Coker,2024,not-d1,"Division II freshman. Norfolk Collegiate, then St. Paul Prep"
+Jaquan Womack,M,5312322,119,Towson,2024,tracked,Paul VI
+Jordan Smith Jr.,M,5142729,8,Arkansas,2024 2025,tracked,"""Jordan Smith"" on the 2024 roster; same person"
+Christian Gurdak,M,5101850,164,Rutgers,2024,tracked,Virginia Tech then Rutgers
+Bryton Barrett,M,5458199,2244,George Mason,2025,tracked,Mount St. Joseph
+Carter Meadows,M,,,Michigan (football),2025,done,Plays college football at Michigan
+Daniel Russell,M,,,The Potomac School,2025,not-d1,Still in high school (class of 2027 per ESPN Recruiting; the EYBL roster said 2026)
+Khaliq Carson,M,,,,2025,not-found,"Bishop Ireton, class of 2026. No college roster found; may still be in high school"
+Lawrence Brown,M,5458817,526,Florida Gulf Coast,2025,tracked,Goes by Turk Brown III on ESPN
+Parker Robinson,M,5210807,197,Oklahoma State,2025,tracked,Overtime Elite
+Prince-Alexander Moody,M,5456444,84,Indiana,2025,tracked,Bishop McNamara
+Qayden Samuels,M,5210406,333,Alabama,2025,tracked,Bishop McNamara
+Gia Cook,W,4607456,277,West Virginia,,tracked,ESPN spells it Gia Cooke. Bishop McNamara; Maryland then Houston then West Virginia
+Saniyah Jah,W,5174286,2132,Cincinnati,,tracked,"ESPN spells it Sahnya Jah. Bishop McNamara; South Carolina, Arizona and SMU before Cincinnati"
+Jadyn Donovan,W,5174407,150,Duke,,tracked,Sidwell Friends
+Delaney Thomas,W,5174409,150,Duke,,tracked,St. John's College HS
+Qadence Samuels,W,5174492,152,NC State,,tracked,Bishop McNamara; UConn then NC State
+Dabrya Clark,W,5178568,2429,Charlotte,,tracked,ESPN: Da'Brya Clark. Norfolk State then Charlotte
+Hawa Doumbouya,W,5175685,277,West Virginia,,tracked,"Our Lady of Mount Carmel; Maryland, Virginia and VCU before West Virginia"
+Simone Lewis,W,5178586,107,Holy Cross,,tracked,Georgetown Visitation
+Kyndal Walker,W,5240180,59,Georgia Tech,,tracked,Maryland then Georgia Tech
+Savannah Curry,W,5240931,58,South Florida,,tracked,Temple then South Florida
+Tanah Gorman,W,,,,,not-found,Bishop Ireton. Off Air Force's 2026-27 roster (ESPN marks her inactive) and on no other D-I roster; no new school found
+Zhen Craft,W,5311702,2633,Tennessee,,tracked,Bishop McNamara; Georgia then Tennessee
+Princess Moody,W,5312717,2507,Providence,,tracked,Bishop McNamara
+Riley Hamburger,W,5312719,2507,Providence,,tracked,Paul VI
+Mary Amoateng,W,5312775,2244,George Mason,,tracked,Bishop McNamara
+Kennedy Austin,W,5313533,2378,UMBC,,tracked,Maret
+Maisie Crowley,W,5313536,2378,UMBC,,tracked,Bishop McNamara
+Amirah Anderson,W,5311823,333,Alabama,,tracked,Bishop Ireton; Boston College then Alabama
+Autumn Fleary,W,5455227,150,Duke,,tracked,Sidwell Friends
+Kai Powell,W,5462243,44,American,,tracked,Bishop McNamara
+Cai Roberson,W,5459282,2378,UMBC,,tracked,IMG Academy
+Irianna Smoot,W,5457775,151,East Carolina,,tracked,ESPN spells it Irieanna Smoot. Virginia Academy
+Zoe Osby,W,5457632,2567,SMU,,tracked,Elizabeth Seton
+Reagan Edsell,W,5457759,256,James Madison,,tracked,John Handley
+Demi Gilliam,W,5457760,256,James Madison,,tracked,Paul VI

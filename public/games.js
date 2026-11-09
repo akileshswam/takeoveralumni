@@ -7,7 +7,7 @@ async function load() {
   state.error = "";
   render();
   try {
-    const d = await K.getJson(`api/boxscores?date=${K.compact(date)}`);
+    const d = await K.getJson(`api/boxscores?date=${K.compact(date)}${K.lg()}`);
     if (date !== state.date) return;
     state.data = d;
   } catch (e) {
@@ -57,7 +57,7 @@ function render() {
   $("date").value = state.date;
   $("season").textContent = K.seasonLabel(state.date);
   $("lede").textContent = `${K.longDate(state.date)}. Every game with a Team Takeover alumnus's team. Open one for the full box score.`;
-  $("players-link").href = `./?date=${state.date}`;
+  $("players-link").href = `./?date=${state.date}${K.lg()}`;
 
   const all = d ? d.games : [];
   let status = "";

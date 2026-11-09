@@ -413,3 +413,17 @@ td.gl-reason { font-family: var(--stat); font-size: 12px; color: var(--muted); t
   .lb-filters .search { width: 100%; }
   .stattable th.sticky, .stattable td.sticky { min-width: 168px !important; max-width: 168px; white-space: normal; }
 }
+
+/* NCAAM / NCAAW switch in the top bar */
+.league-switch { display: flex; border: 1px solid var(--rule-2); flex-shrink: 0; }
+.league-switch a { padding: 7px 12px; font-family: var(--stat); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink-2); text-decoration: none; }
+.league-switch a + a { border-left: 1px solid var(--rule-2); }
+.league-switch a:hover { color: var(--accent); text-decoration: none; }
+.league-switch a[aria-current] { background: var(--accent); color: var(--on-accent); }
+@media (max-width: 720px) {
+  /* On phones the switch gets its own row under the logo and tabs. */
+  .topbar-in { height: auto; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; row-gap: 8px; }
+  .topbar-in .spacer { display: none; }
+  .league-switch { order: 5; width: 100%; }
+  .league-switch a { flex: 1; text-align: center; }
+}

@@ -47,7 +47,7 @@ const TEAM_STATS = [
   ["largestLead", "Largest lead"],
 ];
 
-// Period headers come from the game itself: 2 halves for men's college, then overtimes.
+// Period headers come from the game itself: 2 halves for men, 4 quarters for women, then overtimes.
 function periodLabel(i, reg) {
   if (i < reg) return reg === 2 ? `H${i + 1}` : `Q${i + 1}`;
   return i === reg ? "OT" : `${i - reg + 1}OT`;
@@ -55,7 +55,7 @@ function periodLabel(i, reg) {
 
 async function load() {
   try {
-    data = await K.getJson(`api/game?id=${encodeURIComponent(gameId)}`);
+    data = await K.getJson(`api/game?id=${encodeURIComponent(gameId)}${K.lg()}`);
     if (!backDate) backDate = K.etDateOf(data.start);
     $("status").innerHTML = "";
   } catch (e) {
@@ -69,10 +69,10 @@ function renderHead() {
   document.title = `${away.abbr} @ ${home.abbr} · Team Takeover Box Scores`;
   $("title").textContent = `${away.name} at ${home.name}, ${K.longDate(backDate)}`;
   $("eyebrow").textContent = `${K.seasonLabel(backDate)} · BOX SCORE`;
-  $("back").href = `games?date=${backDate}`;
+  $("back").href = `games?date=${backDate}${K.lg()}`;
   $("back-label").textContent = `Games · ${K.shortDate(backDate)}`;
-  $("games-link").href = `games?date=${backDate}`;
-  $("players-link").href = `./?date=${backDate}`;
+  $("games-link").href = `games?date=${backDate}${K.lg()}`;
+  $("players-link").href = `./?date=${backDate}${K.lg()}`;
   $("espn-links").innerHTML = K.espnLink(data.espn.box, "ESPN box score") + K.espnLink(data.espn.game, "ESPN gamecast");
 
   const where = [data.venue, data.city].filter(Boolean).join(", ");

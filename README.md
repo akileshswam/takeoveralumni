@@ -1,6 +1,6 @@
 # Team Takeover Box Scores
 
-How Team Takeover alumni are doing in men's college basketball (NCAAM, Division I), so the social team can see each night who had a game worth posting about, and how every alumnus is doing this season.
+How Team Takeover alumni are doing in Division I men's (NCAAM) and women's (NCAAW) college basketball, so the social team can see each night who had a game worth posting about, and how every alumnus is doing this season.
 
 It's a cut-down copy of KLUTCH Box Scores: same layout, type and data pipeline, recolored from the Team Takeover logo and limited to alumni.
 
@@ -13,6 +13,12 @@ node server.mjs
 ```
 
 Then open http://localhost:4317. The only dependency is `@netlify/blobs`, which the Netlify functions use (`npm install` if `node_modules/` is missing). The local server doesn't need it.
+
+## Leagues
+
+The NCAAM / NCAAW switch in the top bar adds `league=ncaaw` to the URL. No `league` means NCAAM, so links from before NCAAW was added still work. Every page and API endpoint takes the same param, and the switch keeps the date. Each league has its own alumni rows, its own Leaderboard season log and its own "not on a D-I roster" list. Marks are stored by date and ESPN athlete id, which ESPN keeps unique across leagues.
+
+Men's games are 2 halves and women's are 4 quarters, both read from each game.
 
 ## Pages
 
@@ -28,13 +34,14 @@ Then open http://localhost:4317. The only dependency is `@netlify/blobs`, which 
 ## The alumni list: `alumni.csv`
 
 ```
-name,espn_id,team_id,team,roster_years,status,note
-Patrick Ngongba II,4873209,150,Duke,2022 2023,tracked,"""Patrick Ngongba"" on the 2023 roster"
-Daniel Russell,,,The Potomac School,2025,not-d1,Still in high school
+name,league,espn_id,team_id,team,roster_years,status,note
+Patrick Ngongba II,M,4873209,150,Duke,2022 2023,tracked,"""Patrick Ngongba"" on the 2023 roster"
+Daniel Russell,M,,,The Potomac School,2025,not-d1,Still in high school
 ```
 
-- **Matching is by `espn_id` only, never by name.** Many alumni have common names, and a wrong id puts a stranger's stats on the site. The id is the number in the player's ESPN URL (`espn.com/mens-college-basketball/player/_/id/4873209/...`).
-- `team_id` is ESPN's men's college team id (in the team URL, `.../team/_/id/150/duke-blue-devils`). It decides which games are pulled, so **it must be the player's current team**. Team ids are only unique within a league.
+- **Matching is by `espn_id` only, never by name.** Many alumni have common names, and a wrong id puts a stranger's stats on the site. The id is the number in the player's ESPN URL (`espn.com/mens-college-basketball/player/_/id/4873209/...`, or `womens-college-basketball` for women).
+- `league` is `M` (NCAAM) or `W` (NCAAW). A blank league means `M`.
+- `team_id` is ESPN's team id for that league (in the team URL, `espn.com/womens-college-basketball/team/_/id/150/duke-blue-devils`). It decides which games are pulled, so **it must be the player's current team**. Team ids are only unique within a league (Duke is 150 for both men and women), so always take a women's player's team id from the women's site.
 - `team` is the school name the site shows. `name` is for people reading the file: the site shows ESPN's spelling (Donovan Freeman shows as Donnie Freeman).
 - `status`:
   - `tracked`: on a D-I roster. Needs `espn_id` and `team_id`, and shows everywhere.
@@ -53,28 +60,28 @@ To add someone or record a transfer, edit the row, push, and Netlify redeploys i
 
 ## Data: ESPN's public feed
 
-Everything comes from ESPN's site API (`site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball`). It's free and needs no key, but it isn't an official API and can change without notice, so every ESPN call is in `lib/` (`lib/core.mjs` for pages, `lib/season.mjs` for the Leaderboard). If a page breaks, check there first.
+Everything comes from ESPN's site API (`site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball`, and `womens-college-basketball` for NCAAW). It's free and needs no key, but it isn't an official API and can change without notice, so every ESPN call is in `lib/` (`lib/core.mjs` for pages, `lib/season.mjs` for the Leaderboard). If a page breaks, check there first.
 
 ESPN quirks that are handled:
 
 - **Scoreboards need `&groups=50&limit=1000`.** Without them ESPN quietly returns only some of the day's D-I games.
 - **Only alumni-team games are pulled.** The day's scoreboard is read once, and `/summary?event=` is called only for games with an alumni team. Rosters are fetched only for alumni teams. ESPN's `/teams` list isn't used: it's incomplete for college without a limit.
-- **Team ids are only unique within a league.** The league slug is in every ESPN URL, and the in-memory cache is keyed by URL, so adding the NBA later can't mix teams up. (The Blob keys are `ledger-{season}` and `board-{season}`; an NBA leaderboard would need its own keys.)
-- **Line scores**: men's college games are 2 halves, then overtimes. The number of regulation periods comes from each game.
+- **Team ids are only unique within a league.** Each league reads only its own alumni rows, the league slug is in every ESPN URL, the in-memory cache is keyed by URL, and each league's season log has its own key, so men's and women's teams can't mix.
+- **Line scores**: men's games are 2 halves and women's are 4 quarters, then overtimes. The number of regulation periods comes from each game.
 - **Dates**: each game stays in ESPN's date bucket, even when a late tip crosses midnight Eastern.
 - **Ranks** show only for 1-25. ESPN uses 99 for unranked.
 - **Retries**: ESPN sometimes answers 200 with an empty body, or caches a bad empty response for a date. An empty body counts as a failure and is retried 3 times with backoff. If it still fails, the last good copy is served. The Leaderboard skips that date and tries again on the next run, and keeps serving the saved board instead of an error.
 - **DNP reasons**: college injury lists are usually empty, so they aren't used. ESPN often gives no reason for a college DNP, which shows as "Did Not Play".
-- **Headshots**: `https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/{id}.png`, with a silhouette if ESPN has none.
+- **Headshots**: `https://a.espncdn.com/i/headshots/{mens|womens}-college-basketball/players/full/{id}.png`, with a silhouette if ESPN has none.
 - **Minutes**: box scores round each game's minutes, so MIN per game can differ from ESPN's season average by a few tenths (ESPN averages exact seconds). Every other stat matches ESPN's season totals exactly.
 
 ### Leaderboard season log
 
 - Stores only alumni lines from their teams' games, as compact arrays: `[gameId, date, teamId, teamAbbr, started, min, pts, reb, oreb, dreb, ast, stl, blk, tov, pf, fgm, fga, tpm, tpa, ftm, fta]`.
-- On Netlify it lives in Blobs as `ledger-{season}` (the log) and `board-{season}` (the season totals the page reads). Locally it's `data/ledger-{season}.json`.
+- Each league has its own log. On Netlify it lives in Blobs as `ledger-{league}-{season}` (the log) and `board-{league}-{season}` (the season totals the page reads). Locally, and on Render, it's `data/ledger-{league}-{season}.json`.
 - Dates are walked directly from Oct 25 to Apr 15, because ESPN's college calendar stops at the end of the regular season.
 - Regular season (type 2) and postseason (type 3) games count. Canceled or postponed games, and games that never get a box score, are closed out once the day has passed and never fetched again.
-- `netlify/functions/update-leaderboard.mjs` runs every 15 minutes and adds newly finished games within a time budget. On a first deploy, or after `alumni.csv` changes, `/api/leaderboard` starts the build itself, and the page says how many games are still loading.
+- `netlify/functions/update-leaderboard.mjs` runs every 15 minutes and adds newly finished games for both leagues within a time budget. On a first deploy, or after `alumni.csv` changes, `/api/leaderboard` starts the build itself, and the page says how many games are still loading.
 
 ## How fresh the numbers are
 
@@ -86,6 +93,8 @@ ESPN quirks that are handled:
 
 ## API
 
+All endpoints take `&league=ncaaw` (no league means NCAAM).
+
 | Endpoint | What |
 |---|---|
 | `/api/boxscores?date=YYYYMMDD` | Alumni lines, DNPs and missing alumni for a date, plus that date's alumni-team games |
@@ -93,6 +102,15 @@ ESPN quirks that are handled:
 | `/api/schedule?from=YYYYMMDD&days=N` | Alumni-team games over 1-14 days, with each team's alumni |
 | `/api/leaderboard` | Season totals and last 5 games for every tracked alumnus |
 | `/api/marks?date=YYYYMMDD` (GET), `/api/marks` (POST `{date, id, marked}`) | Shared mark-to-post bookmarks |
+
+## Putting it online (Render)
+
+Render runs `server.mjs` as a plain Node web service. It has to be a **Web Service**, not a Static Site, because every page loads its data from `/api/...`.
+
+- New → Web Service → pick the repo, branch `main`, runtime Node.
+- Build command: `npm install`. Start command: `node server.mjs`. Render sets `PORT`.
+- Marks and the season logs are files in `data/`. On the free plan that folder is wiped on every deploy, restart and sleep: the season logs rebuild themselves from ESPN on the next Leaderboard visit, but marks to post are lost. To keep them, use a paid instance, add a disk mounted at `/var/data`, and set the environment variable `DATA_DIR=/var/data`.
+- With no scheduler on Render, each Leaderboard is brought up to date when someone opens it (at most every two minutes).
 
 ## Putting it online (Netlify)
 
