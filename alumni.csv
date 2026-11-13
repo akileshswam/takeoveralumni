@@ -1,4 +1,4 @@
-# Team Takeover alumni. Men (league M) are from the program's 2022-2025 EYBL roster graphic (assets/team-takeover-rosters.webp);
+# Team Takeover alumni. Men (league M) are from the program's 2022-2025 EYBL roster graphic (assets/team-takeover-rosters.webp) and its Where Are They Now graphic;
 # women (league W) are from the program's own list.
 # Matched by espn_id only, never by name. team_id is ESPN's team id for that league (ids are only unique within a league:
 # Duke is 150 for both men and women), so a row's league and team_id always go together.
@@ -12,7 +12,6 @@ Donovan Freeman,M,4873145,2599,St. John's,2022 2023,tracked,ESPN spells it Donni
 Darren Harris,M,4873107,84,Indiana,2022 2023,tracked,Paul VI; Duke then Indiana
 Deshawn Harris-Smith,M,4848622,48,Delaware,2022,tracked,Maryland then Georgetown then Delaware
 Jacoi Hutchinson,M,4845378,2653,Troy,2022,tracked,GW then Longwood then Troy
-Bryce Lindsay,M,5174291,84,Indiana,2022,tracked,Villanova then Indiana
 Malik Mack,M,5175952,2507,Providence,2022,tracked,Harvard then Georgetown then Providence
 Patrick Ngongba II,M,4873209,150,Duke,2022 2023,tracked,"""Patrick Ngongba"" on the 2023 roster"
 Patrick O'Brien,M,5176042,2083,Bucknell,2022,tracked,Bishop O'Connell
@@ -20,7 +19,6 @@ Jeremiah Quigley,M,5177097,2066,Binghamton,2022,tracked,Iona then George Mason t
 Andre Skelin,M,,,Wayne State (Neb.),2022,not-d1,"Division II. St. Mary's Ryken. ESPN still lists him at UT Tyler (id 5183393), which no longer rosters him; not tracked"
 Jaden Winston,M,5177116,279,Pacific,2022,tracked,Manhattan then Pacific
 Justin Bumbray,M,,,Johnson C. Smith,2023,not-d1,Division II. Good Counsel. ESPN has a D-II profile (5319277)
-Daquan Davis,M,5101651,112358,LIU,2023,tracked,Florida State then Providence then LIU
 Ben Hammond,M,4873105,259,Virginia Tech,2023,tracked,Paul VI
 Nykolas Lewis,M,5311890,2670,VCU,2023 2024,tracked,"""Nyk Lewis"" on the 2024 roster; same person"
 Rulian Stewart,M,,,South Dakota (football),2023,done,"Plays college football as RJ Stewart, a defensive back at South Dakota"
@@ -42,6 +40,15 @@ Lawrence Brown,M,5458817,526,Florida Gulf Coast,2025,tracked,Goes by Turk Brown 
 Parker Robinson,M,5210807,197,Oklahoma State,2025,tracked,Overtime Elite
 Prince-Alexander Moody,M,5456444,84,Indiana,2025,tracked,Bishop McNamara
 Qayden Samuels,M,5210406,333,Alabama,2025,tracked,Bishop McNamara
+Garrett Johnson,M,4898230,58,South Florida,,tracked,"Oakton, VA"
+Tyler Perkins,M,5182412,222,Villanova,,tracked,"On the program's Where Are They Now graphic. Lorton, VA"
+Marcus Banks,M,5462487,2643,The Citadel,,tracked,"On the program's Where Are They Now graphic. Clinton, MD"
+Mike Montano,M,5461618,2572,Southern Miss,,tracked,"On the program's Where Are They Now graphic. Alexandria, VA"
+Elijah Flowers,M,5313180,107,Holy Cross,,tracked,"On the program's Where Are They Now graphic. Washington, DC"
+Colin Byrd,M,5462537,2755,Grambling,,tracked,"On the program's Where Are They Now graphic. Leesburg, VA"
+Jacob Moore,M,5314299,2771,Merrimack,,tracked,"On the program's Where Are They Now graphic. Hamilton, VA"
+Kahu Treacher,M,5460817,204,Oregon State,,tracked,"On the program's Where Are They Now graphic. Hastings, New Zealand"
+Jemon Price,M,5462506,2747,Wofford,,tracked,"On the program's Where Are They Now graphic. Chantilly, VA"
 Gia Cook,W,4607456,277,West Virginia,,tracked,ESPN spells it Gia Cooke. Bishop McNamara; Maryland then Houston then West Virginia
 Saniyah Jah,W,5174286,2132,Cincinnati,,tracked,"ESPN spells it Sahnya Jah. Bishop McNamara; South Carolina, Arizona and SMU before Cincinnati"
 Jadyn Donovan,W,5174407,150,Duke,,tracked,Sidwell Friends
